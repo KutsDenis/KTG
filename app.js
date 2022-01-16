@@ -12,7 +12,8 @@ const env = process.env;
 const con = mysql.createConnection({
 	host: env.hostSQL,
 	user: env.userSQL,
-	password: env.passSQL
+	password: env.passSQL,
+	database: env.dbSQL
 });
 
 con.connect(function(err) {
