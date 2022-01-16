@@ -23,17 +23,17 @@ con.connect(function(err) {
 
 const bot = new Telegraf(env.TOKEN);
 bot.start((ctx) => ctx.reply('Welcome to the club, buddy...'));
-bot.hears('md', (ctx) => console.log(ctx.message));
+bot.hears('d', (ctx) => console.log(ctx.message.from.id));
 bot.help((ctx) => ctx.reply(help.commands));
 
-bot.command('shopping', async (ctx) => {
+// Menu
+bot.command('family', async (ctx) => {
 	try {
-		await ctx.replyWithHTML('<b>Список покупок  🛒</b>', Markup.inlineKeyboard(
+		await ctx.replyWithHTML('<b>Управление семьёй 👤</b>', Markup.inlineKeyboard(
 			[
-				[Markup.button.callback('Добавить ✅', 'btn_1'),
-					Markup.button.callback('Удалить ❌', 'btn_2')],
-				[Markup.button.callback('Показать 📜', 'btn_3'),
-					Markup.button.callback('Отправить 📨', 'btn_4')]
+				[Markup.button.callback('Добавить ✅', 'btn_addFam'),
+					Markup.button.callback('Удалить ❌', 'btn_addRem')],
+				[Markup.button.callback('Показать список 📜', 'btn_listFam')]
 			]
 		))
 	} catch (e) {
@@ -41,9 +41,27 @@ bot.command('shopping', async (ctx) => {
 	}
 })
 
-bot.action('btn_1', async ctx => {
+bot.command('shopping', async (ctx) => {
+	try {
+		await ctx.replyWithHTML('<b>Список покупок  🛒</b>', Markup.inlineKeyboard(
+			[
+				[Markup.button.callback('Добавить ✅', 'btnSHP_1'),
+					Markup.button.callback('Удалить ❌', 'btnSHP_2')],
+				[Markup.button.callback('Показать 📜', 'btnSHP_3'),
+					Markup.button.callback('Отправить 📨', 'btnSHP_4')]
+			]
+		))
+	} catch (e) {
+		console.error(e);
+	}
+})
+
+// Handlers
+bot.action('btn_addFam', async ctx => {
 	try {
 		await ctx.answerCbQuery();
+		console.log(ctx.user.id);
+		//const sql = con.query("SELECT own_family FROM users WHERE id_tg === ")
 	} catch (e) {
 		console.error(e)
 	}
